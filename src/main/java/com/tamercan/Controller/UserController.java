@@ -22,20 +22,30 @@ public class UserController {
 
 
     @PostMapping(value = "/login")
-    public ResponseEntity<?> Login(@RequestBody UserAuthenticate userAuthenticate) {
+    public ResponseEntity Login(@RequestBody UserAuthenticate userAuthenticate) {
 
-        boolean result = userRepository.existsByUsernameAndPassword(userAuthenticate.getUsername(), userAuthenticate.getPassword());
-
-        if (result == false)
-            return  new ResponseEntity<>("notfound",HttpStatus.NOT_FOUND);
-        return new ResponseEntity<>("ok",HttpStatus.OK);
+        if (userRepository.existsByUsernameAndPassword(userAuthenticate.getUsername(), userAuthenticate.getPassword()))
+            return ResponseEntity.ok(HttpStatus.OK);
+        return ResponseEntity.ok(HttpStatus.NOT_FOUND);
 
     }
 
     @PostMapping(value = "/create")
-    public ResponseEntity<?> Create(@RequestBody User user){
+    public ResponseEntity Create(@RequestBody User user) {
+        if (userRepository.existsByUsername(user.getUsername()))
+            return ResponseEntity.ok(HttpStatus.IM_USED);
         userRepository.save(user);
-        return ResponseEntity.ok(HttpStatus.OK);
+        return ResponseEntity.ok(HttpStatus.CREATED);
+
+    }
+
+    @PutMapping(value = "/update")
+    public ResponseEntity Update(@RequestBody UserAuthenticate userAuthenticate) {
+        if (userRepository.existsByUsername(userAuthenticate.getUsername())) {
+            userRepository.updatePasswordByUsername(userAuthenticate.getUsername(), userAuthenticate.getPassword());
+            return ResponseEntity.ok(HttpStatus.ACCEPTED);
+        }
+        return ResponseEntity.ok(HttpStatus.NOT_FOUND);
     }
 
 }
