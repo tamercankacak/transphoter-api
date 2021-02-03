@@ -1,10 +1,10 @@
-package Controller;
+package com.tamercan;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
-@SpringBootApplication
-public class RunService {
+@SpringBootApplication public class RunService {
     public static void main(String[] args) {
         SpringApplication.run(RunService.class, args);
     }
