@@ -3,6 +3,7 @@ package com.tamercan.Controller;
 import com.tamercan.Entity.User;
 import com.tamercan.Entity.UserAuthenticate;
 import com.tamercan.Repository.UserRepository;
+import com.tamercan.Service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import javax.websocket.server.PathParam;
 public class UserController {
 
     private final UserRepository userRepository;
+    private final UserService userService;
 
 
     @PostMapping(value = "/login")
@@ -42,7 +44,7 @@ public class UserController {
     @PutMapping(value = "/update")
     public ResponseEntity Update(@RequestBody UserAuthenticate userAuthenticate) {
         if (userRepository.existsByUsername(userAuthenticate.getUsername())) {
-            userRepository.updatePasswordByUsername(userAuthenticate.getUsername(), userAuthenticate.getPassword());
+            userService.update(userAuthenticate.getUsername(),userAuthenticate.getPassword());
             return ResponseEntity.ok(HttpStatus.ACCEPTED);
         }
         return ResponseEntity.ok(HttpStatus.NOT_FOUND);
