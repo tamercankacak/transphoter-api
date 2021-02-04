@@ -4,19 +4,23 @@ import com.tamercan.Entity.User;
 import com.tamercan.Entity.UserAuthenticate;
 import com.tamercan.Repository.UserRepository;
 import com.tamercan.Service.UserService;
+import com.tamercan.exception.AuthenticateException;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 
 
 @RestController
 @RequestMapping(value = "/user")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@Validated
 public class UserController {
 
     private final UserRepository userRepository;
@@ -28,26 +32,20 @@ public class UserController {
 
         if (userRepository.existsByUsernameAndPassword(userAuthenticate.getUsername(), userAuthenticate.getPassword()))
             return ResponseEntity.ok(HttpStatus.OK);
-        return ResponseEntity.ok(HttpStatus.NOT_FOUND);
+        throw new AuthenticateException();
 
     }
 
     @PostMapping(value = "/create")
-    public ResponseEntity Create(@RequestBody User user) {
-        if (userRepository.existsByUsername(user.getUsername()))
-            return ResponseEntity.ok(HttpStatus.IM_USED);
-        userRepository.save(user);
-        return ResponseEntity.ok(HttpStatus.CREATED);
-
+    public ResponseEntity Create(@RequestBody @Valid User user) {
+        userService.Create(user);
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @PutMapping(value = "/update")
     public ResponseEntity Update(@RequestBody UserAuthenticate userAuthenticate) {
-        if (userRepository.existsByUsername(userAuthenticate.getUsername())) {
-            userService.update(userAuthenticate.getUsername(),userAuthenticate.getPassword());
-            return ResponseEntity.ok(HttpStatus.ACCEPTED);
-        }
-        return ResponseEntity.ok(HttpStatus.NOT_FOUND);
+        userService.Update(userAuthenticate.getUsername(), userAuthenticate.getPassword());
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
 }

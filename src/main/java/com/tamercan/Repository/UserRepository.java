@@ -7,8 +7,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Repository
@@ -21,9 +20,14 @@ public interface UserRepository extends JpaRepository<User, Long> {
     boolean existsByUsername(String username);
 
     @Modifying
-    @Query(value = "update User user set user.password = :password where user.username = :username", nativeQuery = true)
-    void updatePasswordByUsername(String username, String password);
+    @Transactional
+    @Query(value = "update public.user set password = :password where username = :username", nativeQuery = true)
+    void updatePasswordByUsername(@Param("username") String username, @Param("password") String password);
 
+    @Modifying
+    @Transactional
+    @Query(value = "insert into public.user (username,password) values(:username,:password)", nativeQuery = true)
+    void createUser(@Param("username") String username, @Param("password") String password);
 
 
 }
