@@ -29,16 +29,13 @@ public class UserController {
 
     @PostMapping(value = "/login")
     public ResponseEntity Login(@RequestBody UserAuthenticate userAuthenticate) {
-
-        if (userRepository.existsByUsernameAndPassword(userAuthenticate.getUsername(), userAuthenticate.getPassword()))
-            return ResponseEntity.ok(HttpStatus.OK);
-        throw new AuthenticateException();
-
+        userService.Login(userAuthenticate);
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @PostMapping(value = "/create")
-    public ResponseEntity Create(@RequestBody @Valid User user) {
-        userService.Create(user);
+    public ResponseEntity Create(@RequestBody @Valid UserAuthenticate userAuthenticate) {
+        userService.Create(userAuthenticate);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 

@@ -1,9 +1,14 @@
 package com.tamercan.Service;
 
 import com.tamercan.Entity.User;
+import com.tamercan.Entity.UserAuthenticate;
 import com.tamercan.Repository.UserRepository;
+import com.tamercan.exception.AuthenticateException;
+import com.tamercan.exception.UserAlreadyExistException;
 import com.tamercan.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,6 +16,14 @@ public class UserService {
 
     @Autowired
     UserRepository userRepository;
+
+    public void Login(UserAuthenticate userAuthenticate) {
+        if (userRepository.existsByUsernameAndPassword(userAuthenticate.getUsername(), userAuthenticate.getPassword())) {
+
+        } else {
+            throw new AuthenticateException();
+        }
+    }
 
     public void Update(String username, String password) {
         if (userRepository.existsByUsername(username)) {
@@ -20,11 +33,11 @@ public class UserService {
         }
     }
 
-    public void Create(User user) {
-        if (!userRepository.existsByUsername(user.getUsername())) {
-            userRepository.createUser(user.getUsername(),user.getPassword());
+    public void Create(UserAuthenticate userAuthenticate) {
+        if (!userRepository.existsByUsername(userAuthenticate.getUsername())) {
+            userRepository.createUser(userAuthenticate.getUsername(), userAuthenticate.getPassword());
         } else {
-            throw new UserNotFoundException(user.getUsername());
+            throw new UserAlreadyExistException(userAuthenticate.getUsername());
         }
     }
 
