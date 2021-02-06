@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class WordsCreate {
+public class WordCreate {
 
     private String englishword;
     private String turkishword;

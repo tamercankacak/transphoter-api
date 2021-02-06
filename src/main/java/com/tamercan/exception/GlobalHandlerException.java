@@ -65,6 +65,16 @@ public class GlobalHandlerException extends ResponseEntityExceptionHandler {
         return buildResponseEntity(apiError);
     }
 
+    @ExceptionHandler(WordNotFoundException.class)
+    protected ResponseEntity<Object> handleConstraintViolation(WordNotFoundException ex) {
+        APIError apiError = new APIError.Builder()
+                .httpStatus(HttpStatus.NOT_FOUND)
+                .errorCode(5)
+                .message(ex.getMessage())
+                .build();
+        return buildResponseEntity(apiError);
+    }
+
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
                                                                   HttpHeaders headers, HttpStatus status, WebRequest request) {
