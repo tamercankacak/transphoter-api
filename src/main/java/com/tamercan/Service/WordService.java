@@ -2,7 +2,6 @@ package com.tamercan.Service;
 
 import com.tamercan.Entity.Word;
 
-import com.tamercan.Entity.WordCreate;
 import com.tamercan.Repository.WordRepository;
 import com.tamercan.exception.WordAlreadyExistsException;
 import com.tamercan.exception.WordNotFoundException;
@@ -15,18 +14,26 @@ public class WordService {
     @Autowired
     WordRepository wordRepository;
 
-    public void Create(WordCreate wordCreate) {
-        if (!wordRepository.existsByEnglishwordAndTurkishword(wordCreate.getEnglishword(), wordCreate.getTurkishword())) {
-            wordRepository.createWord(wordCreate.getEnglishword(), wordCreate.getTurkishword());
+    public void Create(Word word) {
+        if (!wordRepository.existsByEnglishwordAndTurkishword(word.getEnglishword(), word.getTurkishword())) {
+            wordRepository.createWord(word.getEnglishword(), word.getTurkishword());
         } else {
-            throw new WordAlreadyExistsException(wordCreate.getEnglishword());
+            throw new WordAlreadyExistsException(word.getEnglishword());
         }
     }
 
-    public Word Get(long id) {
+    public Word GetById(long id) {
 
         if (wordRepository.existsById(id)) {
             return wordRepository.findById(id);
+        } else {
+            throw new WordNotFoundException();
+        }
+    }
+
+    public Word GetByEnglishWordAndTurkishWord(String englishword, String turkishword) {
+        if (wordRepository.existsByEnglishwordAndTurkishword(englishword, turkishword)) {
+            return wordRepository.findByEnglishwordAndTurkishword(englishword, turkishword);
         } else {
             throw new WordNotFoundException();
         }

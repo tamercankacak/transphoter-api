@@ -86,6 +86,16 @@ public class GlobalHandlerException extends ResponseEntityExceptionHandler {
         return buildResponseEntity(apiError);
     }
 
+    @ExceptionHandler(UserWordAlreadyExistsException.class)
+    protected ResponseEntity<Object> handleConstraintViolation(UserWordAlreadyExistsException ex) {
+        APIError apiError = new APIError.Builder()
+                .httpStatus(HttpStatus.CONFLICT)
+                .errorCode(7)
+                .message(ex.getMessage())
+                .build();
+        return buildResponseEntity(apiError);
+    }
+
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
                                                                   HttpHeaders headers, HttpStatus status, WebRequest request) {

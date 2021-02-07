@@ -23,9 +23,11 @@ public class UserWord {
     private Long id;
 
     @NotNull(message = "{validation.userword.notNull}")
-    private long wordId;
+    private long userId;
 
     @NotNull(message = "{validation.userword.notNull}")
-    private long userId;
+    private long wordId;
+
+
 
 }
