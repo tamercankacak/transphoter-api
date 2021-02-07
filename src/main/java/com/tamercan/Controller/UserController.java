@@ -1,12 +1,9 @@
 package com.tamercan.Controller;
 
-import com.tamercan.Entity.User;
 import com.tamercan.Entity.UserAuthenticate;
 import com.tamercan.Repository.UserRepository;
 import com.tamercan.Service.UserService;
-import com.tamercan.exception.AuthenticateException;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +11,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
 
 
 @RestController

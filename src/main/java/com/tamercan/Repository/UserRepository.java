@@ -1,7 +1,6 @@
 package com.tamercan.Repository;
 
 import com.tamercan.Entity.User;
-import org.hibernate.annotations.SQLUpdate;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

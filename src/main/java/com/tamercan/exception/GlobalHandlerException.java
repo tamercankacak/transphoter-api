@@ -55,8 +55,8 @@ public class GlobalHandlerException extends ResponseEntityExceptionHandler {
         return buildResponseEntity(apiError);
     }
 
-    @ExceptionHandler(UserAlreadyExistException.class)
-    protected ResponseEntity<Object> handleConstraintViolation(UserAlreadyExistException ex) {
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    protected ResponseEntity<Object> handleConstraintViolation(UserAlreadyExistsException ex) {
         APIError apiError = new APIError.Builder()
                 .httpStatus(HttpStatus.CONFLICT)
                 .errorCode(4)
@@ -65,11 +65,22 @@ public class GlobalHandlerException extends ResponseEntityExceptionHandler {
         return buildResponseEntity(apiError);
     }
 
+
     @ExceptionHandler(WordNotFoundException.class)
     protected ResponseEntity<Object> handleConstraintViolation(WordNotFoundException ex) {
         APIError apiError = new APIError.Builder()
                 .httpStatus(HttpStatus.NOT_FOUND)
                 .errorCode(5)
+                .message(ex.getMessage())
+                .build();
+        return buildResponseEntity(apiError);
+    }
+
+    @ExceptionHandler(WordAlreadyExistsException.class)
+    protected ResponseEntity<Object> handleConstraintViolation(WordAlreadyExistsException ex) {
+        APIError apiError = new APIError.Builder()
+                .httpStatus(HttpStatus.CONFLICT)
+                .errorCode(6)
                 .message(ex.getMessage())
                 .build();
         return buildResponseEntity(apiError);

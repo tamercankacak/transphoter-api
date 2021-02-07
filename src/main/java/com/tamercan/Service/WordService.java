@@ -1,8 +1,10 @@
 package com.tamercan.Service;
 
 import com.tamercan.Entity.Word;
+
 import com.tamercan.Entity.WordCreate;
 import com.tamercan.Repository.WordRepository;
+import com.tamercan.exception.WordAlreadyExistsException;
 import com.tamercan.exception.WordNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +19,7 @@ public class WordService {
         if (!wordRepository.existsByEnglishwordAndTurkishword(wordCreate.getEnglishword(), wordCreate.getTurkishword())) {
             wordRepository.createWord(wordCreate.getEnglishword(), wordCreate.getTurkishword());
         } else {
-            //throw new UserAlreadyExistException(wor.getUsername());
+            throw new WordAlreadyExistsException(wordCreate.getEnglishword());
         }
     }
 

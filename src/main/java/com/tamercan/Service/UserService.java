@@ -1,14 +1,11 @@
 package com.tamercan.Service;
 
-import com.tamercan.Entity.User;
 import com.tamercan.Entity.UserAuthenticate;
 import com.tamercan.Repository.UserRepository;
 import com.tamercan.exception.AuthenticateException;
-import com.tamercan.exception.UserAlreadyExistException;
+import com.tamercan.exception.UserAlreadyExistsException;
 import com.tamercan.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -37,7 +34,7 @@ public class UserService {
         if (!userRepository.existsByUsername(userAuthenticate.getUsername())) {
             userRepository.createUser(userAuthenticate.getUsername(), userAuthenticate.getPassword());
         } else {
-            throw new UserAlreadyExistException(userAuthenticate.getUsername());
+            throw new UserAlreadyExistsException(userAuthenticate.getUsername());
         }
     }
 
