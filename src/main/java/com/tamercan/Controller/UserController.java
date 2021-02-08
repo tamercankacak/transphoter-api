@@ -19,7 +19,6 @@ import javax.validation.Valid;
 @Validated
 public class UserController {
 
-    private final UserRepository userRepository;
     private final UserService userService;
 
 

@@ -4,7 +4,9 @@ import com.tamercan.Entity.UserWord;
 import com.tamercan.Repository.UserWordRepository;
 import com.tamercan.exception.UserWordAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UserWordService {
 
     @Autowired

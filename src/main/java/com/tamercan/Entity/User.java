@@ -2,11 +2,10 @@ package com.tamercan.Entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
-import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
-import java.util.Date;
+
 
 @Entity
 @Getter
