@@ -16,10 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/userword")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Validated
+//UserWord controller.It's that connecting word and user process.
 public class UserWordController {
 
+    //It contains methods. Using for database process.
     private final UserWordService userWordService;
 
+    //Create controller. It creates userword with user reference an word reference. Requeries wordId and wordId.
     @PostMapping(value = "/create")
     public ResponseEntity Create(@RequestBody UserWord userWord) {
         userWordService.Create(userWord);
